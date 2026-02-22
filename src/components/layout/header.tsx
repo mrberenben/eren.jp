@@ -1,0 +1,52 @@
+"use client";
+
+import Link from "next/link";
+import MetallicPaint from "~/components/motion/metallic-paint";
+
+import { ThemeToggle } from "~/components/shared/theme-toggle";
+import { buttonVariants } from "~/components/ui/button";
+import { cn } from "~/lib/utils";
+
+const navLinks = [
+  { href: "/", label: "Home" },
+  { href: "/blog", label: "Blog" },
+  { href: "/components", label: "Components" },
+  { href: "/contact", label: "Contact" }
+] as const;
+
+export function Header() {
+  return (
+    <header className="fixed top-0 inset-x-0 w-full border-b bg-background/80 backdrop-blur-lg z-50">
+      <nav className="mx-auto flex max-w-4xl items-center justify-between px-6 py-5">
+        <Link href="/" className="text-lg font-semibold tracking-tight fill-foreground">
+          eren.jp
+        </Link>
+
+        <ul className="flex items-center gap-x-7">
+          {navLinks.map(link => (
+            <li key={link.href}>
+              <Link href={link.href} className="text-muted-foreground hover:text-foreground text-sm transition-colors">
+                {link.label}
+              </Link>
+            </li>
+          ))}
+        </ul>
+
+        <div className="flex flex-row items-center gap-x-2">
+          <ThemeToggle />
+
+          <Link
+            href="/contact"
+            className={cn(buttonVariants({ variant: "ghost" }), "shadow-raised px-4")}
+            as="button"
+            //  style={{
+            //   boxShadow: `inset 0 1px 0 hsla(var(--color-white-h),var(--color-white-s),var(--color-white-l),.15),0 0 0 1px var(--color-contrast-higher),var(--shadow-sm)`
+            // }}
+          >
+            Hire me
+          </Link>
+        </div>
+      </nav>
+    </header>
+  );
+}
