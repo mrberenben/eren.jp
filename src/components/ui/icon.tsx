@@ -53,7 +53,7 @@ import {
 } from "lucide-react";
 
 // custom icons
-import { contrast, github, linkedin, spotify, twitter } from "~/components/ui/custom-icons";
+import { contrast, ethereum, github, linkedin, spotify, twitter } from "~/components/ui/custom-icons";
 
 // types
 import type { LucideProps } from "lucide-react";
@@ -113,10 +113,11 @@ const staticIcons: Record<string, React.ComponentType<LucideProps>> = {
   github: github,
   linkedin: linkedin,
   twitter: twitter,
-  spotify: spotify
+  spotify: spotify,
+  ethereum: ethereum
 };
 
-type CustomIconName = "contrast" | "github" | "linkedin" | "twitter" | "spotify";
+type CustomIconName = "contrast" | "github" | "linkedin" | "twitter" | "spotify" | "ethereum";
 type GenericIconName = IconName | CustomIconName;
 
 export const Icon = React.memo(({ name, ...props }: LucideProps & { name: GenericIconName }) => {

@@ -76,3 +76,61 @@ export function spotify(props: LucideProps) {
     </svg>
   );
 }
+
+export function ethereum(props: LucideProps) {
+  return (
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
+      <g clipPath="url(#7a505b1b-f4d9-42f2-99cc-0c8b0fb8ee7c)">
+        <rect width="24" height="24" rx="4.5" fill="#202020"></rect>
+        <rect
+          width="24"
+          height="24"
+          rx="4.5"
+          fill="url(#cebf971e-5127-4289-8e51-af2ce23281db)"
+          fillOpacity="0.2"
+        ></rect>
+        <rect
+          x="0.5"
+          y="0.5"
+          width="23"
+          height="23"
+          rx="4"
+          stroke="white"
+          strokeOpacity="0.15"
+          style={{ mixBlendMode: "overlay" }}
+        ></rect>
+        <path
+          d="M12.0095 5.12808L11.9224 5.42411V14.0142L12.0095 14.1011L15.9969 11.7442L12.0095 5.12808Z"
+          fill="#B0B0B0"
+        ></path>
+        <path d="M12.0106 5.12772L8.02319 11.7438L12.0106 14.1008V9.93144V5.12772Z" fill="white"></path>
+        <path
+          d="M12.0105 15.399L11.9614 15.4588V18.5188L12.0105 18.6622L16.0003 13.0432L12.0105 15.399Z"
+          fill="#A0A0A0"
+        ></path>
+        <path d="M12.0099 18.6622V15.399L8.02246 13.0432L12.0099 18.6622Z" fill="white"></path>
+        <path d="M12.0098 14.1021L15.9971 11.7452L12.0098 9.9328V14.1021Z" fill="#575757"></path>
+        <path d="M8.02246 11.7452L12.0098 14.1021V9.9328L8.02246 11.7452Z" fill="#A9A9A9"></path>
+      </g>
+      <defs>
+        <radialGradient
+          id="cebf971e-5127-4289-8e51-af2ce23281db"
+          cx="0"
+          cy="0"
+          r="1"
+          gradientUnits="userSpaceOnUse"
+          gradientTransform="translate(12 -7.5) rotate(90) scale(31.5)"
+        >
+          <stop stopColor="white"></stop>
+          <stop offset="1" stopColor="white" stopOpacity="0"></stop>
+        </radialGradient>
+        <clipPath id="7a505b1b-f4d9-42f2-99cc-0c8b0fb8ee7c">
+          <path
+            d="M0 4.5C0 2.01472 2.01472 0 4.5 0H19.5C21.9853 0 24 2.01472 24 4.5V19.5C24 21.9853 21.9853 24 19.5 24H4.5C2.01472 24 0 21.9853 0 19.5V4.5Z"
+            fill="white"
+          ></path>
+        </clipPath>
+      </defs>
+    </svg>
+  );
+}

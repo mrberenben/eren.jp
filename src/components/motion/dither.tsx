@@ -187,7 +187,7 @@ export default function Dither({
 }: DitherProps) {
   return (
     <Canvas
-      className="w-full h-full relative"
+      className="w-full h-full relative bg-muted"
       camera={{ position: [0, 0, 6] }}
       dpr={1}
       gl={{ antialias: true, preserveDrawingBuffer: true }}

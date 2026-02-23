@@ -6,7 +6,7 @@ import { Icon } from "~/components/ui/icon";
 
 export function Footer() {
   return (
-    <footer className="w-full border-t bg-background">
+    <footer className="w-full bg-background">
       <div className="mx-auto max-w-4xl px-6 py-5">
         <div className="flex flex-row items-center justify-between w-full">
           <p className="text-muted-foreground text-sm">&copy; {new Date().getFullYear()} eren.jp</p>

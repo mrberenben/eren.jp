@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import MetallicPaint from "~/components/motion/metallic-paint";
 
 import { ThemeToggle } from "~/components/shared/theme-toggle";
 import { buttonVariants } from "~/components/ui/button";
@@ -22,7 +21,7 @@ export function Header() {
           eren.jp
         </Link>
 
-        <ul className="flex items-center gap-x-7">
+        {/* <ul className="flex items-center gap-x-7">
           {navLinks.map(link => (
             <li key={link.href}>
               <Link href={link.href} className="text-muted-foreground hover:text-foreground text-sm transition-colors">
@@ -30,19 +29,12 @@ export function Header() {
               </Link>
             </li>
           ))}
-        </ul>
+        </ul> */}
 
         <div className="flex flex-row items-center gap-x-2">
           <ThemeToggle />
 
-          <Link
-            href="/contact"
-            className={cn(buttonVariants({ variant: "ghost" }), "shadow-raised px-4")}
-            as="button"
-            //  style={{
-            //   boxShadow: `inset 0 1px 0 hsla(var(--color-white-h),var(--color-white-s),var(--color-white-l),.15),0 0 0 1px var(--color-contrast-higher),var(--shadow-sm)`
-            // }}
-          >
+          <Link href="mailto:hello@eren.jp" className={cn(buttonVariants({ variant: "ghost" }), "shadow-raised px-4")}>
             Hire me
           </Link>
         </div>

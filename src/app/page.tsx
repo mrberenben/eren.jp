@@ -1,10 +1,10 @@
-import Link from "next/link";
 import CircularGallery from "~/components/motion/circular-gallery";
 import Dither from "~/components/motion/dither";
 import { InlineLink, InlineLinkIcon } from "~/components/shared/inline-link";
+import { Section } from "~/components/shared/section";
 import { Icon } from "~/components/ui/icon";
 import { createClient } from "~/lib/supabase/server";
-import { cn } from "~/lib/utils";
+import { GetInTouch } from "~/components/get-in-touch";
 import type { WorkExperience } from "~/types";
 
 function formatPeriod(startDate: string, endDate: string | null): string {
@@ -66,8 +66,8 @@ export default async function HomePage() {
 
   return (
     <div className="mx-auto max-w-4xl px-6">
-      {/* Hero */}
-      <section className="relative min-h-96 my-20">
+      {/* hero */}
+      <Section className="py-8 min-h-96 my-20">
         <div className="absolute inset-0 size-full rounded-3xl overflow-hidden z-0 pointer-events-none select-none brightness-50">
           <Dither
             waveColor={[0.5, 0.5, 0.5]}
@@ -81,7 +81,7 @@ export default async function HomePage() {
           />
         </div>
 
-        <div className="relative flex flex-col py-24 px-12 z-1">
+        <div className="relative flex flex-col py-24 px-12 z-1 pointer-events-none">
           <h1 className="relative text-5xl font-bold tracking-tight leading-[1.175] sm:text-6xl text-white">
             Frontend Developer
             <br />
@@ -91,11 +91,10 @@ export default async function HomePage() {
             Building clean, performant interfaces for the web and mobile.
           </p>
         </div>
-      </section>
+      </Section>
 
-      {/* About */}
-      <section className="py-20">
-        {/* <p className="text-muted-foreground mb-8 text-xs uppercase tracking-widest">About</p> */}
+      {/* about */}
+      <Section>
         <div className="space-y-4 text-lg leading-relaxed">
           <p>
             I&apos;m a frontend developer who cares deeply about craft — the details that make an interface feel right.
@@ -107,59 +106,7 @@ export default async function HomePage() {
             detail right. Currently expanding into{" "}
             <InlineLink href="https://en.wikipedia.org/wiki/Blockchain" target="_blank" rel="noopener noreferrer">
               <InlineLinkIcon className="-mt-0.75">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <g clipPath="url(#7a505b1b-f4d9-42f2-99cc-0c8b0fb8ee7c)">
-                    <rect width="24" height="24" rx="4.5" fill="#202020"></rect>
-                    <rect
-                      width="24"
-                      height="24"
-                      rx="4.5"
-                      fill="url(#cebf971e-5127-4289-8e51-af2ce23281db)"
-                      fillOpacity="0.2"
-                    ></rect>
-                    <rect
-                      x="0.5"
-                      y="0.5"
-                      width="23"
-                      height="23"
-                      rx="4"
-                      stroke="white"
-                      strokeOpacity="0.15"
-                      style={{ mixBlendMode: "overlay" }}
-                    ></rect>
-                    <path
-                      d="M12.0095 5.12808L11.9224 5.42411V14.0142L12.0095 14.1011L15.9969 11.7442L12.0095 5.12808Z"
-                      fill="#B0B0B0"
-                    ></path>
-                    <path d="M12.0106 5.12772L8.02319 11.7438L12.0106 14.1008V9.93144V5.12772Z" fill="white"></path>
-                    <path
-                      d="M12.0105 15.399L11.9614 15.4588V18.5188L12.0105 18.6622L16.0003 13.0432L12.0105 15.399Z"
-                      fill="#A0A0A0"
-                    ></path>
-                    <path d="M12.0099 18.6622V15.399L8.02246 13.0432L12.0099 18.6622Z" fill="white"></path>
-                    <path d="M12.0098 14.1021L15.9971 11.7452L12.0098 9.9328V14.1021Z" fill="#575757"></path>
-                    <path d="M8.02246 11.7452L12.0098 14.1021V9.9328L8.02246 11.7452Z" fill="#A9A9A9"></path>
-                  </g>
-                  <defs>
-                    <radialGradient
-                      id="cebf971e-5127-4289-8e51-af2ce23281db"
-                      cx="0"
-                      cy="0"
-                      r="1"
-                      gradientUnits="userSpaceOnUse"
-                      gradientTransform="translate(12 -7.5) rotate(90) scale(31.5)"
-                    >
-                      <stop stop-color="white"></stop>
-                      <stop offset="1" stop-color="white" stop-opacity="0"></stop>
-                    </radialGradient>
-                    <clipPath id="7a505b1b-f4d9-42f2-99cc-0c8b0fb8ee7c">
-                      <path
-                        d="M0 4.5C0 2.01472 2.01472 0 4.5 0H19.5C21.9853 0 24 2.01472 24 4.5V19.5C24 21.9853 21.9853 24 19.5 24H4.5C2.01472 24 0 21.9853 0 19.5V4.5Z"
-                        fill="white"
-                      ></path>
-                    </clipPath>
-                  </defs>
-                </svg>
+                <Icon name="ethereum" />
               </InlineLinkIcon>
               Blockchain
             </InlineLink>
@@ -167,10 +114,10 @@ export default async function HomePage() {
             committed to continuous learning and delivering high-standard work.
           </p>
         </div>
-      </section>
+      </Section>
 
-      {/* Circular Gallery */}
-      <section
+      {/* gallery */}
+      <Section
         className="relative flex flex-col min-h-140 py-16 -mt-8"
         style={{
           perspective: "800px",
@@ -191,10 +138,10 @@ export default async function HomePage() {
           scrollEase={0.02}
           scrollSpeed={1.5}
         />
-      </section>
+      </Section>
 
-      {/* Skills */}
-      <section className="py-20">
+      {/* skills */}
+      <Section>
         <div className="space-y-4 text-lg leading-relaxed">
           <blockquote className="text-lg italic">
             &ldquo;Technology never stands still — neither should you.&rdquo;
@@ -209,11 +156,11 @@ export default async function HomePage() {
             TypeScript · React.js · Next.js · React Native · Tailwind CSS · Node.js · MongoDB · PostgreSQL
           </p>
         </div>
-      </section>
+      </Section>
 
-      {/* Work History */}
+      {/* work history */}
       {workHistory && workHistory.length > 0 && (
-        <section className="py-20">
+        <Section>
           <p className="text-muted-foreground mb-8 text-xs uppercase tracking-widest">Experience</p>
           <div className="divide-border divide-y">
             {workHistory.map(job => (
@@ -255,11 +202,11 @@ export default async function HomePage() {
               </details>
             ))}
           </div>
-        </section>
+        </Section>
       )}
 
-      {/* Explore */}
-      <section className="py-20">
+      {/* explore */}
+      {/* <Section>
         <p className="text-muted-foreground mb-8 text-xs uppercase tracking-widest">Explore</p>
         <div className="grid sm:grid-cols-3">
           {exploreLinks.map((link, index) => (
@@ -275,7 +222,12 @@ export default async function HomePage() {
             </Link>
           ))}
         </div>
-      </section>
+      </Section> */}
+
+      {/* get in touch */}
+      <Section className="pb-30">
+        <GetInTouch />
+      </Section>
     </div>
   );
 }
