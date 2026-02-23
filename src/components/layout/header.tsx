@@ -1,10 +1,13 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 
 import { ThemeToggle } from "~/components/shared/theme-toggle";
 import { buttonVariants } from "~/components/ui/button";
 import { cn } from "~/lib/utils";
+
+import Monogram from "~/assets/monogram.png";
 
 const navLinks = [
   { href: "/", label: "Home" },
@@ -17,8 +20,9 @@ export function Header() {
   return (
     <header className="fixed top-0 inset-x-0 w-full border-b bg-background/80 backdrop-blur-lg z-50">
       <nav className="mx-auto flex max-w-4xl items-center justify-between px-6 py-5">
-        <Link href="/" className="text-lg font-semibold tracking-tight fill-foreground">
-          eren.jp
+        <Link href="/" className="flex items-center gap-x-2 text-lg font-semibold tracking-tight fill-foreground">
+          <Image src={Monogram} alt="eren.jp" className="size-8 rounded-full" />
+          eren
         </Link>
 
         {/* <ul className="flex items-center gap-x-7">

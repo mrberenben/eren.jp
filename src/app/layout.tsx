@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono, Inter } from "next/font/google";
 import { Header, Footer } from "~/components/layout";
 import { Providers } from "~/components/providers";
+import { Analytics } from "@vercel/analytics/next";
 import "~/styles/globals.css";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
@@ -18,10 +19,11 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: "eren.jp",
+    default: "eren.jp | frontend developer",
     template: "%s | eren.jp"
   },
-  description: "Software developer, frontend web developer portfolio and blog."
+  description:
+    "Portfolio website of 25-year-old frontend developer based in Istanbul, Turkey. Showcasing work experience, projects, and blog posts about web development."
 };
 
 export default function RootLayout({
@@ -38,6 +40,8 @@ export default function RootLayout({
           <Footer />
         </Providers>
       </body>
+
+      <Analytics />
     </html>
   );
 }
