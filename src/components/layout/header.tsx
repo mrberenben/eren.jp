@@ -3,46 +3,47 @@
 import Image from "next/image";
 import Link from "next/link";
 
-import { ThemeToggle } from "~/components/shared/theme-toggle";
+import { motion } from "motion/react";
+
 import { buttonVariants } from "~/components/ui/button";
 import { cn } from "~/lib/utils";
 
-import Monogram from "~/assets/monogram.png";
-
-const navLinks = [
-  { href: "/", label: "Home" },
-  { href: "/blog", label: "Blog" },
-  { href: "/components", label: "Components" },
-  { href: "/contact", label: "Contact" }
-] as const;
+import Logo from "~/assets/e.svg";
 
 export function Header() {
   return (
-    <header className="fixed top-0 inset-x-0 w-full border-b bg-background/80 backdrop-blur-lg z-50">
-      <nav className="mx-auto flex max-w-4xl items-center justify-between px-6 py-5">
+    <motion.header
+      className="fixed top-0 inset-x-0 w-full z-50"
+      initial={{ opacity: 0, y: -16, filter: "blur(6px)" }}
+      animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+      transition={{ duration: 0.5, delay: 0.4 }}
+    >
+      <nav className="mx-auto max-w-7xl flex items-center justify-between px-6 py-5">
         <Link href="/" className="flex items-center gap-x-2 text-lg font-semibold tracking-tight fill-foreground">
-          <Image src={Monogram} alt="eren.jp" className="size-8 rounded-full" />
-          eren
+          <Image src={Logo} alt="eren.jp" className="size-10" />
         </Link>
 
-        {/* <ul className="flex items-center gap-x-7">
-          {navLinks.map(link => (
-            <li key={link.href}>
-              <Link href={link.href} className="text-muted-foreground hover:text-foreground text-sm transition-colors">
-                {link.label}
-              </Link>
-            </li>
-          ))}
-        </ul> */}
+        <div className="flex flex-row items-center gap-x-6">
+          <Link
+            href="/eren-kuliş-cv.pdf"
+            target="_blank"
+            rel="noreferrer noopenner"
+            className="text-sm font-bold uppercase text-foreground hover:text-muted-foreground transition-colors"
+          >
+            Download CV
+          </Link>
 
-        <div className="flex flex-row items-center gap-x-2">
-          <ThemeToggle />
-
-          <Link href="mailto:hello@eren.jp" className={cn(buttonVariants({ variant: "ghost" }), "shadow-raised px-4")}>
+          <Link
+            href="mailto:hello@eren.jp"
+            className={cn(
+              buttonVariants({ variant: "default", size: "sm" }),
+              "font-semibold rounded-full px-4 uppercase leading-none"
+            )}
+          >
             Hire me
           </Link>
         </div>
       </nav>
-    </header>
+    </motion.header>
   );
 }

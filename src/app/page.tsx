@@ -1,233 +1,158 @@
-import CircularGallery from "~/components/motion/circular-gallery";
-import Dither from "~/components/motion/dither";
-import { InlineLink, InlineLinkIcon } from "~/components/shared/inline-link";
-import { Section } from "~/components/shared/section";
-import { Icon } from "~/components/ui/icon";
+import Hero from "~/components/hero";
+import GallerySection from "~/components/gallery-section";
 import { createClient } from "~/lib/supabase/server";
+import { Section } from "~/components/shared/section";
 import { GetInTouch } from "~/components/get-in-touch";
-import type { WorkExperience } from "~/types";
-
-function formatPeriod(startDate: string, endDate: string | null): string {
-  const format = (date: string) => {
-    const d = new Date(date + "T00:00:00");
-    return d.toLocaleDateString("en-US", { month: "short", year: "numeric" });
-  };
-  return `${format(startDate)} – ${endDate ? format(endDate) : "Present"}`;
-}
-
-const exploreLinks = [
-  {
-    href: "/blog",
-    title: "Blog",
-    description: "Thoughts on frontend development, tooling, and the web platform."
-  },
-  {
-    href: "/components",
-    title: "Components",
-    description: "Interactive demos of custom React components with source code."
-  },
-  {
-    href: "/contact",
-    title: "Contact",
-    description: "Have a question or want to work together? Reach out."
-  }
-];
+import { ChromaticTextReveal } from "~/components/motion/chromatic-text-reveal";
+import { FullWidthKineticText } from "~/components/motion/kinetic-text";
+import { Services } from "~/components/services";
+import { fetchQuery } from "~/lib/supabase/query";
+import { formatPeriod } from "~/lib/numeric";
+import { Footer } from "~/components/layout";
+import { SkillSet } from "~/components/skillset";
+import { WorkHistory } from "~/components/work-history";
 
 export default async function HomePage() {
+  const supabase = await createClient();
+
+  const [workHistory, skillset, services] = await Promise.all([
+    fetchQuery(
+      supabase
+        .from("work_experiences")
+        .select("company, role, type, location, company_location, start_date, end_date, description, tech_stack")
+        .eq("published", true)
+        .order("sort_order", { ascending: true }),
+      "workHistory"
+    ),
+    fetchQuery(supabase.from("skillset").select("skill"), "skillset"),
+    fetchQuery(supabase.from("services").select("title, description"), "services")
+  ]);
+
+  const galleryItems = Array.from({ length: 8 }, (_, i) => ({
+    image: `${process.env.NEXT_PUBLIC_SUPABASE_CDN}/${i + 1}.jpeg`,
+    text: ""
+  }));
+
   const CURRENT_YEAR = new Date().getFullYear();
   const START_YEAR = 2020;
   const EXPERIENCE_IN_YEARS = CURRENT_YEAR - START_YEAR;
 
-  const supabase = await createClient();
-  const { data: workHistory } = await supabase
-    .from("work_experiences")
-    .select("company, role, type, location, company_location, start_date, end_date, description, tech_stack")
-    .eq("published", true)
-    .order("sort_order", { ascending: true })
-    .returns<
-      Pick<
-        WorkExperience,
-        | "company"
-        | "role"
-        | "type"
-        | "location"
-        | "company_location"
-        | "start_date"
-        | "end_date"
-        | "description"
-        | "tech_stack"
-      >[]
-    >();
-
-  const galleryItems = Array.from({ length: 8 }, (_, i) => ({
-    image: `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/cdn/${i + 1}.jpeg`,
-    text: ""
-  }));
-
   return (
-    <div className="mx-auto max-w-4xl px-6">
+    <div className="flex flex-col">
       {/* hero */}
-      <Section className="py-8 min-h-96 my-20">
-        <div className="absolute inset-0 size-full rounded-3xl overflow-hidden z-0 pointer-events-none select-none brightness-50">
-          <Dither
-            waveColor={[0.5, 0.5, 0.5]}
-            disableAnimation={false}
-            enableMouseInteraction
-            mouseRadius={0.3}
-            colorNum={4}
-            waveAmplitude={0.3}
-            waveFrequency={3}
-            waveSpeed={0.05}
-          />
-        </div>
-
-        <div className="relative flex flex-col py-24 px-12 z-1 pointer-events-none">
-          <h1 className="relative text-5xl font-bold tracking-tight leading-[1.175] sm:text-6xl text-white">
-            Frontend Developer
-            <br />
-            from Istanbul.
-          </h1>
-          <p className="mt-5 max-w-xl text-lg bg-linear-to-b from-background dark:from-foreground to-muted-foreground bg-clip-text text-transparent">
-            Building clean, performant interfaces for the web and mobile.
-          </p>
-        </div>
-      </Section>
+      <Hero />
 
       {/* about */}
-      <Section>
-        <div className="space-y-4 text-lg leading-relaxed">
-          <p>
-            I&apos;m a frontend developer who cares deeply about craft — the details that make an interface feel right.
-            I work primarily with React, TypeScript, and Next.js.
-          </p>
-          <p className="text-muted-foreground">
-            Detail-oriented Frontend Developer with {EXPERIENCE_IN_YEARS} years of experience across startups,
-            enterprise companies, and freelance projects. Passionate about quality, with a strong focus on getting every
-            detail right. Currently expanding into{" "}
-            <InlineLink href="https://en.wikipedia.org/wiki/Blockchain" target="_blank" rel="noopener noreferrer">
-              <InlineLinkIcon className="-mt-0.75">
-                <Icon name="ethereum" />
-              </InlineLinkIcon>
-              Blockchain
-            </InlineLink>
-            technologies while maintaining solid expertise in modern frontend development. A calm, curious professional
-            committed to continuous learning and delivering high-standard work.
-          </p>
+      <Section className="pt-48 pb-24">
+        <div className="mx-auto max-w-4xl px-6">
+          <div className="space-y-4 text-lg leading-relaxed">
+            <ChromaticTextReveal>
+              I&apos;m a frontend developer who cares deeply about craft — the details that make an interface feel
+              right. I work primarily with React, TypeScript, and Next.js.
+            </ChromaticTextReveal>
+            <ChromaticTextReveal delay={0.3} foregroundColor="oklch(0.556 0 0)">
+              Detail-oriented Frontend Developer with {EXPERIENCE_IN_YEARS} years of experience across startups,
+              enterprise companies, and freelance projects. Passionate about quality, with a strong focus on getting
+              every detail right. Currently expanding into Fintech & Blockchain technologies while maintaining solid
+              expertise in modern frontend development. A calm, curious professional committed to continuous learning
+              and delivering high-standard work.
+            </ChromaticTextReveal>
+          </div>
         </div>
       </Section>
 
       {/* gallery */}
       <Section
-        className="relative flex flex-col min-h-140 py-16 -mt-8"
+        className="relative flex flex-col min-h-200 py-16 -mt-8"
         style={{
           perspective: "800px",
           maskImage: `linear-gradient(
-          to left,
-          transparent,
-          black 40px,
-          black calc(100% - 40px),
-          transparent
-        )`
+            to left,
+            transparent,
+            black 40px,
+            black calc(100% - 40px),
+            transparent
+          )`
         }}
       >
-        <CircularGallery
-          items={galleryItems}
-          bend={2}
-          textColor="#ffffff"
-          borderRadius={0.07}
-          scrollEase={0.02}
-          scrollSpeed={1.5}
-        />
+        <GallerySection galleryItems={galleryItems} />
       </Section>
 
-      {/* skills */}
+      {/* the speech */}
       <Section>
-        <div className="space-y-4 text-lg leading-relaxed">
-          <blockquote className="text-lg italic">
-            &ldquo;Technology never stands still — neither should you.&rdquo;
-          </blockquote>
-          <p className="text-muted-foreground">
-            Every project demands a different set of tools, and the true measure of a developer isn&apos;t the number of
-            technologies they know — it&apos;s how seamlessly they adapt to the ones they need. In an industry that
-            evolves daily, I embrace continuous learning as a core discipline rather than a choice. Below are the
-            technologies I actively work with and deliver production-ready solutions in:
-            <br />
-            <br />
-            TypeScript · React.js · Next.js · React Native · Tailwind CSS · Node.js · MongoDB · PostgreSQL
-          </p>
+        <div className="mx-auto max-w-4xl px-6">
+          <div className="space-y-4 text-lg leading-relaxed">
+            <ChromaticTextReveal>
+              <blockquote className="text-lg italic">Everything changes too f*cking fast, so do I.</blockquote>
+            </ChromaticTextReveal>
+
+            <ChromaticTextReveal delay={0.4} foregroundColor="oklch(0.556 0 0)">
+              A new language or framework comes out every day, and I make sure to stay ahead of the curve. Choosing the
+              right tool for the job is essential — that&apos;s where a good developer proves themselves. The true
+              measure of a developer isn&apos;t the number of technologies they know, but how seamlessly they adapt to
+              the ones they need. In an industry that evolves every day, I embrace continuous learning as a core
+              discipline rather than a choice.
+            </ChromaticTextReveal>
+          </div>
         </div>
+      </Section>
+
+      {/* skillset */}
+      {skillset && skillset.length > 0 && (
+        <Section>
+          <div className="mx-auto max-w-4xl px-6">
+            <ChromaticTextReveal
+              delay={0.8}
+              foregroundColor="oklch(0.556 0 0)"
+              className="mb-8 text-xs uppercase tracking-widest"
+            >
+              SKILLSET
+            </ChromaticTextReveal>
+
+            <SkillSet skillset={skillset} />
+          </div>
+        </Section>
+      )}
+
+      {/* services */}
+      {services && services.length > 0 && (
+        <Section>
+          <div className="mx-auto max-w-4xl px-6">
+            <div className="space-y-4 text-lg leading-relaxed">
+              <ChromaticTextReveal
+                foregroundColor="oklch(0.556 0 0)"
+                className="mb-8 text-xs uppercase tracking-widest"
+                delay={1}
+              >
+                Services
+              </ChromaticTextReveal>
+
+              <Services services={services} />
+            </div>
+          </div>
+        </Section>
+      )}
+
+      <Section className="py-48 overflow-hidden">
+        <FullWidthKineticText text="LITTLE TALK, MUCH WORK" as="h1" className="scale-y-200 origin-center" />
       </Section>
 
       {/* work history */}
       {workHistory && workHistory.length > 0 && (
         <Section>
-          <p className="text-muted-foreground mb-8 text-xs uppercase tracking-widest">Experience</p>
-          <div className="divide-border divide-y">
-            {workHistory.map(job => (
-              <details key={job.company} name="work-history" className="group">
-                <summary className="flex items-center justify-between gap-5 py-5 transition-colors hover:bg-secondary/10">
-                  <div className="flex min-w-0 items-center">
-                    <span
-                      className="text-muted-foreground mr-3 inline-block text-[10px] transition-transform duration-300 group-open:rotate-90"
-                      aria-hidden="true"
-                    >
-                      <Icon name="chevron-right" className="size-4" />
-                    </span>
-                    <div>
-                      <span className="font-medium">{job.company}</span>
-                      <span className="text-muted-foreground ml-3 text-sm">{job.role}</span>
-                    </div>
-                  </div>
-                  <span className="text-muted-foreground shrink-0 text-sm pr-2">
-                    {formatPeriod(job.start_date, job.end_date)}
-                  </span>
-                </summary>
-                <div className="pb-4 pl-5.5">
-                  {job.description && (
-                    <p className="text-muted-foreground text-sm leading-relaxed">{job.description}</p>
-                  )}
-                  {job.tech_stack.length > 0 && (
-                    <div className="mt-3 flex flex-wrap gap-1.5">
-                      {job.tech_stack.map(tech => (
-                        <span
-                          key={tech}
-                          className="ring ring-inset ring-border bg-muted text-muted-foreground rounded px-2 py-0.5 text-xs"
-                        >
-                          {tech}
-                        </span>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              </details>
-            ))}
+          <div className="mx-auto max-w-4xl px-6">
+            <ChromaticTextReveal
+              foregroundColor="oklch(0.556 0 0)"
+              className="mb-8 text-xs uppercase tracking-widest"
+              delay={0.2}
+            >
+              Experience
+            </ChromaticTextReveal>
+
+            <WorkHistory history={workHistory} />
           </div>
         </Section>
       )}
-
-      {/* explore */}
-      {/* <Section>
-        <p className="text-muted-foreground mb-8 text-xs uppercase tracking-widest">Explore</p>
-        <div className="grid sm:grid-cols-3">
-          {exploreLinks.map((link, index) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              className={cn("group border border-dashed p-8 hover:bg-secondary/10 transition-colors", {
-                "border-l-0": index !== 0
-              })}
-            >
-              <h3 className="font-medium">{link.title}</h3>
-              <p className="text-muted-foreground mt-1 text-sm">{link.description}</p>
-            </Link>
-          ))}
-        </div>
-      </Section> */}
-
-      {/* get in touch */}
-      <Section className="pb-30">
-        <GetInTouch />
-      </Section>
     </div>
   );
 }

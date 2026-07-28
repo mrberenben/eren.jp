@@ -1,7 +1,7 @@
 "use client";
 
 import { Camera, Mesh, Plane, Program, Renderer, Texture, Transform } from "ogl";
-import { useEffect, useRef } from "react";
+import { forwardRef, useEffect, useImperativeHandle, useRef } from "react";
 
 import meshVertex from "~/shaders/circular-gallery/mesh-vertex.glsl";
 import meshFragment from "~/shaders/circular-gallery/mesh-fragment.glsl";
@@ -345,6 +345,7 @@ class App {
   screen!: { width: number; height: number };
   viewport!: { width: number; height: number };
   raf: number = 0;
+  loopWidth: number = 0;
 
   boundOnResize!: () => void;
   boundOnWheel!: (e: Event) => void;
@@ -417,57 +418,7 @@ class App {
     borderRadius: number,
     font: string
   ) {
-    const defaultItems = [
-      {
-        image: `https://picsum.photos/seed/1/800/600?grayscale`,
-        text: "Bridge"
-      },
-      {
-        image: `https://picsum.photos/seed/2/800/600?grayscale`,
-        text: "Desk Setup"
-      },
-      {
-        image: `https://picsum.photos/seed/3/800/600?grayscale`,
-        text: "Waterfall"
-      },
-      {
-        image: `https://picsum.photos/seed/4/800/600?grayscale`,
-        text: "Strawberries"
-      },
-      {
-        image: `https://picsum.photos/seed/5/800/600?grayscale`,
-        text: "Deep Diving"
-      },
-      {
-        image: `https://picsum.photos/seed/16/800/600?grayscale`,
-        text: "Train Track"
-      },
-      {
-        image: `https://picsum.photos/seed/17/800/600?grayscale`,
-        text: "Santorini"
-      },
-      {
-        image: `https://picsum.photos/seed/8/800/600?grayscale`,
-        text: "Blurry Lights"
-      },
-      {
-        image: `https://picsum.photos/seed/9/800/600?grayscale`,
-        text: "New York"
-      },
-      {
-        image: `https://picsum.photos/seed/10/800/600?grayscale`,
-        text: "Good Boy"
-      },
-      {
-        image: `https://picsum.photos/seed/21/800/600?grayscale`,
-        text: "Coastline"
-      },
-      {
-        image: `https://picsum.photos/seed/12/800/600?grayscale`,
-        text: "Palm Trees"
-      }
-    ];
-    const galleryItems = items && items.length ? items : defaultItems;
+    const galleryItems = items && items.length ? items : [];
     this.mediasImages = galleryItems.concat(galleryItems);
     this.medias = this.mediasImages.map((data, index) => {
       return new Media({
@@ -487,6 +438,11 @@ class App {
         font
       });
     });
+
+    const first = this.medias[0];
+    if (first) {
+      this.loopWidth = first.width * (this.mediasImages.length / 2);
+    }
   }
 
   onTouchDown(e: MouseEvent | TouchEvent) {
@@ -537,7 +493,16 @@ class App {
     this.viewport = { width, height };
     if (this.medias) {
       this.medias.forEach(media => media.onResize({ screen: this.screen, viewport: this.viewport }));
+
+      const first = this.medias[0];
+      if (first) {
+        this.loopWidth = first.width * (this.mediasImages.length / 2);
+      }
     }
+  }
+
+  getScrollState() {
+    return { current: this.scroll.current, loopWidth: this.loopWidth };
   }
 
   update() {
@@ -560,9 +525,9 @@ class App {
     window.addEventListener("resize", this.boundOnResize);
     window.addEventListener("mousewheel", this.boundOnWheel);
     window.addEventListener("wheel", this.boundOnWheel);
-    window.addEventListener("mousedown", this.boundOnTouchDown);
-    window.addEventListener("mousemove", this.boundOnTouchMove);
-    window.addEventListener("mouseup", this.boundOnTouchUp);
+    // window.addEventListener("mousedown", this.boundOnTouchDown);
+    // window.addEventListener("mousemove", this.boundOnTouchMove);
+    // window.addEventListener("mouseup", this.boundOnTouchUp);
     window.addEventListener("touchstart", this.boundOnTouchDown);
     window.addEventListener("touchmove", this.boundOnTouchMove);
     window.addEventListener("touchend", this.boundOnTouchUp);
@@ -573,9 +538,9 @@ class App {
     window.removeEventListener("resize", this.boundOnResize);
     window.removeEventListener("mousewheel", this.boundOnWheel);
     window.removeEventListener("wheel", this.boundOnWheel);
-    window.removeEventListener("mousedown", this.boundOnTouchDown);
-    window.removeEventListener("mousemove", this.boundOnTouchMove);
-    window.removeEventListener("mouseup", this.boundOnTouchUp);
+    // window.removeEventListener("mousedown", this.boundOnTouchDown);
+    // window.removeEventListener("mousemove", this.boundOnTouchMove);
+    // window.removeEventListener("mouseup", this.boundOnTouchUp);
     window.removeEventListener("touchstart", this.boundOnTouchDown);
     window.removeEventListener("touchmove", this.boundOnTouchMove);
     window.removeEventListener("touchend", this.boundOnTouchUp);
@@ -595,16 +560,33 @@ interface CircularGalleryProps {
   scrollEase?: number;
 }
 
-export default function CircularGallery({
-  items,
-  bend = 3,
-  textColor = "#ffffff",
-  borderRadius = 0.05,
-  font = "bold 30px Figtree",
-  scrollSpeed = 2,
-  scrollEase = 0.05
-}: CircularGalleryProps) {
+export interface CircularGalleryHandle {
+  getScrollState: () => { current: number; loopWidth: number };
+}
+
+const CircularGallery = forwardRef<CircularGalleryHandle, CircularGalleryProps>(function CircularGallery(
+  {
+    items,
+    bend = 3,
+    textColor = "#ffffff",
+    borderRadius = 0.05,
+    font = "bold 30px Figtree",
+    scrollSpeed = 2,
+    scrollEase = 0.05
+  },
+  ref
+) {
   const containerRef = useRef<HTMLDivElement>(null);
+  const appRef = useRef<App | null>(null);
+
+  useImperativeHandle(
+    ref,
+    () => ({
+      getScrollState: () => appRef.current?.getScrollState() ?? { current: 0, loopWidth: 0 }
+    }),
+    []
+  );
+
   useEffect(() => {
     if (!containerRef.current) return;
     const app = new App(containerRef.current, {
@@ -616,14 +598,23 @@ export default function CircularGallery({
       scrollSpeed,
       scrollEase
     });
+
+    appRef.current = app;
+
     return () => {
       app.destroy();
+      appRef.current = null;
     };
   }, [items, bend, textColor, borderRadius, font, scrollSpeed, scrollEase]);
+
   return (
     <div
       className="flex flex-1 w-full h-full overflow-hidden cursor-grab active:cursor-grabbing grayscale"
+      role="region"
+      tabIndex={0}
       ref={containerRef}
     />
   );
-}
+});
+
+export default CircularGallery;

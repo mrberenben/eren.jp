@@ -3,6 +3,7 @@
 @import "shadcn/tailwind.css";
 
 @import "./reset.css" layer(base);
+@import "./fonts.css";
 
 @custom-variant dark (&:is(.dark *));
 
@@ -10,6 +11,7 @@
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-sans);
+  --font-serif: "respira";
   --font-mono: var(--font-geist-mono);
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
@@ -82,7 +84,7 @@
   --sidebar-accent-foreground: oklch(0.205 0 0);
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
- --shadow-raised-inset: oklch(1 0 0 / 0.15);
+  --shadow-raised-inset: oklch(1 0 0 / 0.15);
   --shadow-raised-ring: var(--border);
   --shadow-raised-drop: oklch(0 0 0 / 0.05);
   --shadow-raised-overlay-from: oklch(1 0 0 / 1);

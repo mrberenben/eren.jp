@@ -1,26 +1,27 @@
+// next
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Inter } from "next/font/google";
-import { Header, Footer } from "~/components/layout";
-import { Providers } from "~/components/providers";
+import { Inter } from "next/font/google";
+
+// analytics
 import { Analytics } from "@vercel/analytics/next";
+
+// lenis
+import { ReactLenis } from "lenis/react";
+
+// components
+import { Providers } from "~/components/providers";
+import { Header, Footer } from "~/components/layout";
+
+// styles
 import "~/styles/globals.css";
+import "lenis/dist/lenis.css";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"]
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"]
-});
-
 export const metadata: Metadata = {
   title: {
-    default: "eren.jp | frontend developer",
-    template: "%s | eren.jp"
+    default: "Eren Kuliş | Software Developer",
+    template: "%s | Eren Kuliş, Software Developer"
   },
   description:
     "Portfolio website of 25-year-old frontend developer based in Istanbul, Turkey. Showcasing work experience, projects, and blog posts about web development."
@@ -33,14 +34,15 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={inter.variable} suppressHydrationWarning>
-      <body className={`${geistSans.variable} ${geistMono.variable} flex min-h-screen flex-col antialiased`}>
+      <body className="flex min-h-screen flex-col antialiased">
         <Providers>
           <Header />
-          <main className="flex-1 pt-20">{children}</main>
+          <main className="flex-1">{children}</main>
           <Footer />
         </Providers>
       </body>
 
+      <ReactLenis root />
       <Analytics />
     </html>
   );
