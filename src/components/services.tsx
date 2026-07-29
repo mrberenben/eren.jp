@@ -24,7 +24,7 @@ export function Services({
           whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
           transition={{ duration: 0.25, delay: 1 + index * 0.1 }}
           viewport={{ once: true }}
-          className="flex flex-row items-center border-x px-6 h-36 gap-x-12 border-t last:border-b transition-colors hover:bg-muted hover:cursor-pointer"
+          className="flex flex-row items-center border-x px-6 h-36 gap-x-12 border-b first:border-t transition-colors hover:bg-muted hover:cursor-pointer"
           onClick={() => setActiveService(activeService === index ? null : index)}
         >
           <span className="text-muted-foreground text-xs uppercase tracking-widest">0{index + 1}</span>

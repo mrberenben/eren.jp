@@ -265,14 +265,14 @@ export default function Hero() {
         <div className="md:hidden absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
           <div className="flex flex-col text-center gap-y-3 pt-8">
             <motion.span
-              className="text-[172px] font-serif font-bold tracking-tight text-white leading-none"
+              className="text-[160px] font-serif font-bold tracking-tight text-white leading-none"
               {...reveal_text}
             >
               Eren
             </motion.span>
 
             <motion.span
-              className="text-[172px] font-serif font-bold tracking-tight text-white leading-none"
+              className="text-[160px] font-serif font-bold tracking-tight text-white leading-none"
               {...reveal_text}
               transition={{ ...reveal_text.transition, delay: 1.25 }}
             >
@@ -282,7 +282,7 @@ export default function Hero() {
         </div>
 
         {/* description */}
-        <div className="relative pb-3 flex flex-col items-start flex-1 w-full h-full justify-end z-10 pointer-events-none">
+        <div className="relative pb-3 mt-16 sm:mt-0 flex flex-col items-start flex-1 w-full h-full justify-end z-10 pointer-events-none">
           <ChromaticTextReveal delay={0.8} className="text-sm text-start max-w-lg pr-3 pointer-events-auto">
             Welcome to my digital portfolio. I&apos;m a frontend developer dedicated to building innovative web and
             mobile applications. Scroll to know me better. If you&apos;re interested in collaborating, feel free to{" "}

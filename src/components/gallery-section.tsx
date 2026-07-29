@@ -21,6 +21,7 @@ export default function GallerySection(props: { galleryItems: { image: string; t
   useEffect(() => {
     const section = sectionRef.current;
     if (!section || !lenis) return;
+    if (!isDesktop) return;
 
     const preventDefault = (e: Event) => e.preventDefault();
 
@@ -75,7 +76,7 @@ export default function GallerySection(props: { galleryItems: { image: string; t
       observer.disconnect();
       if (lockedRef.current) unlock();
     };
-  }, [lenis]);
+  }, [lenis, isDesktop]);
 
   return (
     <section ref={sectionRef} className="h-screen w-full">
