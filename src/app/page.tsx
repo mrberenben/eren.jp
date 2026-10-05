@@ -2,13 +2,10 @@ import Hero from "~/components/hero";
 import GallerySection from "~/components/gallery-section";
 import { createClient } from "~/lib/supabase/server";
 import { Section } from "~/components/shared/section";
-import { GetInTouch } from "~/components/get-in-touch";
 import { ChromaticTextReveal } from "~/components/motion/chromatic-text-reveal";
 import { FullWidthKineticText } from "~/components/motion/kinetic-text";
 import { Services } from "~/components/services";
 import { fetchQuery } from "~/lib/supabase/query";
-import { formatPeriod } from "~/lib/numeric";
-import { Footer } from "~/components/layout";
 import { SkillSet } from "~/components/skillset";
 import { WorkHistory } from "~/components/work-history";
 
@@ -83,7 +80,7 @@ export default async function HomePage() {
         <div className="mx-auto max-w-4xl px-6">
           <div className="space-y-4 text-lg leading-relaxed">
             <ChromaticTextReveal>
-              <blockquote className="text-lg italic">Everything changes too f*cking fast, so do I.</blockquote>
+              <blockquote className="text-lg italic">AI is changing everything too fast, I am keeping up.</blockquote>
             </ChromaticTextReveal>
 
             <ChromaticTextReveal delay={0.4} foregroundColor="oklch(0.556 0 0)">
@@ -134,7 +131,7 @@ export default async function HomePage() {
       )}
 
       <Section className="py-48 overflow-hidden">
-        <FullWidthKineticText text="LITTLE TALK, MUCH WORK" as="h1" className="scale-y-200 origin-center" />
+        <FullWidthKineticText text="LESS TALK, MUCH WORK" as="h1" className="scale-y-200 origin-center" />
       </Section>
 
       {/* work history */}

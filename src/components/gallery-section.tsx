@@ -87,7 +87,7 @@ export default function GallerySection(props: { galleryItems: { image: string; t
         textColor="#ffffff"
         borderRadius={0}
         scrollEase={0.02}
-        scrollSpeed={2.2}
+        scrollSpeed={4.8}
       />
     </section>
   );
